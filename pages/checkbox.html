@@ -1,0 +1,198 @@
+<html>
+  <head>
+    <script src="https://d3js.org/d3.v4.0.0-alpha.40.min.js"></script>
+  </head>
+  <body>
+    <input type="checkbox" class="myCheckbox" value="thor"> test 1 (thor)
+    <input type="checkbox" class="myCheckbox" value="spiderman"> test 2 (spiderman)
+    <input type="checkbox" class="myCheckbox" value="superman"> test 3 (superman)
+
+    <div id="content"></div>
+    <script>    
+      data = ["batman","thor","superman","spiderman","ironman"];
+      table = d3.select("#content")
+          .append("table")
+          .property("border","1px");
+      d3.selectAll(".myCheckbox").on("change",update);
+      update();
+      
+      
+      function update(){
+        var choices = [];
+        d3.selectAll(".myCheckbox").each(function(d){
+          cb = d3.select(this);
+          if(cb.property("checked")){
+            choices.push(cb.property("value"));
+          }
+        });
+      
+        if(choices.length > 0){
+          newData = data.filter(function(d,i){return choices.includes(d);});
+        } else {
+          newData = data;     
+        } 
+        
+        newRows = table.selectAll("tr")
+            .data(newData,function(d){return d;});
+        newRows.enter()
+          .append("tr")
+          .append("td")
+          .text(function(d){return d;});    
+        newRows.exit()
+          .remove();      
+      }
+    </script>
+  </body>
+</html>
+
+
+let products = await getdata();
+
+    let inputValue = document.getElementById("inputSearch").value;
+    let lowerCaseInputValue = inputValue.toLowerCase();
+    let filteredProducts;
+
+    if (JSON.parse(localStorage.getItem('isPriceChanged')) === true) {
+        let getPriceFilteredProducts = JSON.parse(localStorage.getItem('PriceFilteredProducts'));
+        filteredProducts = getPriceFilteredProducts.filter(function (product) {
+            return product.product_name.toLowerCase().includes(lowerCaseInputValue);
+        });
+    }
+    else if (JSON.parse(localStorage.getItem('iscompanySelected')) === true) {
+        let getcompanyFilteredProducts = JSON.parse(localStorage.getItem('companyFilteredProducts'));
+        filteredProducts = getcompanyFilteredProducts.filter(function (product) {
+            return product.product_name.toLowerCase().includes(lowerCaseInputValue);
+        });
+    }
+    else {
+
+        filteredProducts = products.filter(function (product) {
+            return product.product_name.toLowerCase().includes(lowerCaseInputValue);
+        });
+    }
+
+    // console.log(filteredProducts);
+
+
+    localStorage.setItem('isSearchInputChanged', 'true');
+    localStorage.setItem('searchFilteredProducts', JSON.stringify(filteredProducts));
+
+
+    let card = '';
+    filteredProducts.map((item) => {
+
+        card += cards(item);
+    });
+    document.getElementById('display').innerHTML = card;
+
+    if (inputValue == '') {
+        localStorage.setItem('isSearchInputChanged', 'false');
+        location.reload();
+    }
+
+
+
+
+    //company
+    let products = await getdata();
+    // console.log(products);
+    console.log(id);
+
+    const companyName = document.getElementById(id).innerHTML;
+    // console.log(companyName);
+
+
+    let allproducts;
+    let allFilteredproducts;
+
+    if (JSON.parse(localStorage.getItem('isPriceChanged')) === true) {
+        let getPriceFilteredProducts = JSON.parse(localStorage.getItem('PriceFilteredProducts'));
+        allFilteredproducts = getPriceFilteredProducts.filter(item => item.company === companyName)
+    }
+    else if (JSON.parse(localStorage.getItem('isSearchInputChanged')) === true) {
+        let getSearchFilteredProducts = JSON.parse(localStorage.getItem('searchFilteredProducts'));
+        allFilteredproducts = getSearchFilteredProducts.filter(item => item.company === companyName)
+    }
+    else {
+
+        allFilteredproducts = products.filter(item => item.company === companyName)
+    }
+
+    localStorage.setItem('iscompanySelected', true);
+    localStorage.setItem('companyFilteredProducts', JSON.stringify(allFilteredproducts));
+
+
+
+    // const filteredDataSearch = products.filter(item => item.company === companyName)
+    // console.log(filteredData);
+    if (companyName === 'All') {
+        allproducts = products;
+
+    }
+    else {
+        allproducts = allFilteredproducts;
+    }
+    // console.log(allproducts);
+
+
+
+
+
+
+    let card = '';
+    allproducts.map((item) => {
+
+        card += cards(item);
+    });
+
+    //assign to html
+    document.getElementById('display').innerHTML = card;
+
+    if (companyName === 'All') {
+        localStorage.setItem('iscompanySelected', 'false');
+        displayProducts();
+    }
+
+//price
+
+
+
+    // console.log(products);
+    let newfilterProducts;
+    let rangeValue = document.getElementById('rangeInput').value;
+    // console.log(rangeValue);
+    // console.log(typeof(rangeValue));
+    document.getElementById('value').innerHTML = rangeValue;
+// 
+    if (JSON.parse(localStorage.getItem('isSearchInputChanged'))) {
+        let searchFilteredProducts = JSON.parse(localStorage.getItem('searchFilteredProducts'));
+        newfilterProducts = searchFilteredProducts.filter((item) => parseInt(item.product_price) <= rangeValue);
+
+    }
+    else if(JSON.parse(localStorage.getItem('iscompanySelected')) === true){
+        let getCompanyFilteredProducts = JSON.parse(localStorage.getItem('companyFilteredProducts'));
+        newfilterProducts = getCompanyFilteredProducts.filter((item) => parseInt(item.product_price) <= rangeValue);
+    }
+
+    // else {
+        newfilterProducts = products.filter((item) => parseInt(item.product_price) <= rangeValue);
+
+    // }
+
+
+
+    localStorage.setItem('isPriceChanged', 'true');
+    localStorage.setItem('PriceFilteredProducts', JSON.stringify(newfilterProducts))
+
+
+    let card = '';
+    newfilterProducts.map((item) => {
+
+        card += cards(item);
+    });
+    // store in a varibale 500
+    document.getElementById('display').innerHTML = card;
+    if (rangeValue <= 500) {
+        localStorage.setItem('isPriceChanged', 'false');
+        displayProducts();
+    }

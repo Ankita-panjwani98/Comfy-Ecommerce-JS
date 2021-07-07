@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comfy</title>
+
+
+    <!-- Font awesome library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- Bootstrap cdn links -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- Google Font Links -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <!-- Home Page CSS -->
+    <link rel="stylesheet" href="../css/productdetail.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <!-- Axios Script -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Session Js Script -->
+    <script src="../js/sessionHandle.js"></script>
+    <!-- HomePage Js Script -->
+    <script src="../js/productDetail.js"></script>
+
+    <script src="../js/index.js"></script>
+</head>
+
+<body>
+
+    <!-- Drawer Section -->
+    <div id="mySidenav" class="sidenav">
+        <a href="#" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <h4>Your Bag</h4>
+        <div id="empty-cart-image">
+            <h1>Empty Cart </h1>
+            <img src="../assets/empty-cart.png" height="100" width="100" />
+        </div>
+
+        <div id="displayCartItems">
+            <!-- <div class="product-drawer-page">
+                <div class="image-div">
+                    <img src="./chair.jpg" class="product_image">
+                </div>
+                <div class="product-div">
+                    <div class="product-details">
+                        <p>Sofa</p>
+                        <p>Price Rs. $99</p>
+                        <p>remove</p>
+                    </div>
+                </div>
+                <div class="quantity-div">
+                    <p>&Hat;</p>
+                    <p>4</p>
+                    <p>&#8964;</p>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="clear-cart-button">
+            <h5 class="drawer-price-section">Total:  &#8377; <p id="price">0</p></h5>
+             <button onclick="clearcart()">Clear cart</button>
+             <button class="mt-2">Checkout</button>
+         </div>
+    </div>
+
+
+    <!-- Hero Image -->
+    <section class="hero-image"></section>
+
+    <!-- Hero Image Navbar and Content -->
+    <div class="hero-section">
+
+        <!-- Nav bar -->
+        <nav class="comfy-navbar">
+            <div class="links">
+                <p><a href="#">Home </a> </p>
+                <p><a href="../pages/allProducts.html">Products</a> </p>
+                <p><a href="#">About</a> </p>
+            </div>
+            <div class="comfy-title">Comfy</div>
+            <div class="cart-icon">
+                <div class="icon-icon-badge" id="cart-section">
+                    <div class="cart-icon" >
+                        <i class="fa fa-shopping-cart" aria-hidden="true" onclick="openNav()"></i>
+                    </div>
+                    <div id="cart-items"><span>0</span></div>
+                </div>
+                <div class="login-link" id="login-button"><a href="../pages/login.html">Login</a></div>
+            </div>
+        </nav>
+
+        <!-- hero image content -->
+        <div class="hero-image-content">
+            <h1>REST, RELAX, UNWIND</h1>
+            <h3>Embrace your choices - we do</h3>
+            <button type="button" class="btn btn-outline-light"><a href="../pages/allProducts.html">SHOP NOW</a>
+            </button>
+        </div>
+    </div>
+
+    <!-- Backdrop Section -->
+    <div id="backdrops" onclick="closeNav()"></div>
+
+
+    <!-- Featured Products Section -->
+    <div class="featured-products-section">
+        <header>
+            <h1>Featured</h1>
+        </header>
+
+        <div class="products" id="display">
+
+            <!-- <div class="featured-products">
+                <div class="featured-product-image"><img src="../assets/chair.jpg" alt="chair"></div>
+                <p>Bed</p>
+                <p class="price-bold">Price Rs. 500</p>
+            </div> -->
+        </div>
+
+
+        <div class="allproducts-button">
+            <button> <a href="../pages/allProducts.html">All Products</a></button>
+        </div>
+    </div>
+
+
+
+    
+
+    <script>
+
+        const getuserId = localStorage.getItem('userid');
+        const getuserEmail = localStorage.getItem('email');
+
+
+        if(getuserId === null && getuserEmail ===null){
+            document.getElementById('cart-section').style.display = 'none';
+        }
+
+        if (getuserId !== null && getuserEmail !== null) {
+            document.getElementById('login-button').innerText = 'Logout';
+            document.getElementById('login-button').addEventListener('click', function (e) {
+                deleteSession();
+                // localStorage.removeItem('userid');
+                // localStorage.removeItem('email');
+                location.reload();
+            })
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
